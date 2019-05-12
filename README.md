@@ -1,6 +1,6 @@
 # py-snippets README
 
-This is the README for your extension "py-snippets". After writing up a brief description, we recommend including the following sections.
+for your extension "py-snippets". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
@@ -31,23 +31,6 @@ This extension contributes the following settings:
 
 Calling out known issues can help limit users opening duplicate issues against your extension.
 
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
 
 ## Working with Markdown
 
