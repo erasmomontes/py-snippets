@@ -16,5 +16,7 @@
                 "path": "./snippets/snippets.json"
             }
         ]
+    },
+    "publisher": "py-snippets",
     }
 }
