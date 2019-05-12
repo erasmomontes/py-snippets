@@ -18,5 +18,9 @@
         ]
     },
     "publisher": "py-snippets",
-    }
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/erasmo07/py-snippets.git"
+      }
+    
 }
