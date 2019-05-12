@@ -1,1 +1,167 @@
-{}
+{
+    "Response Get": {
+	 	"prefix": "response_get",
+	 	"body": [
+			"response = self.client.get(${2:})"
+	 	],
+	 	"description": "response variable for unittest"
+    },
+    "Response Post": {
+	 	"prefix": "response_post",
+	 	"body": [
+			"response = self.client.post(${1:}, ${2:})",
+	 	],
+	 	"description": "response variable for unittest"
+    },
+    "Function test": {
+	 	"prefix": "test_function",
+	 	"body": [
+		    "def test_${1:}(self):",
+            "    # GIVEN",
+            "    ${2:}",
+            "",
+            "    # WHEN",
+            "    ${3:}",
+            "",
+            "    # THEN",
+            "    ${4:}",
+            ""
+	 	],
+	 	"description": "response variable for unittest"
+    },
+	"Test class": {
+	 	"prefix": "test_class",
+	 	"body": [
+			"class Test${1:foo}(TestCase):",
+			"",
+		    "    def setUp(self):",
+		    "        pass"
+	 	],
+	 	"description": "Test class for test what ever"
+    },
+    
+    "Form class": {
+	 	"prefix": "form_class",
+	 	"body": [
+			"class ${1:}Form(forms.ModelForm):",
+            "",
+            "   class Meta:",
+            "       model = models.${1:}",
+            "       fields = [${2:}]"
+	 	],
+	 	"description": "Form class for models"
+    },
+    
+    "FactoryBoy class": {
+	 	"prefix": "factory_model",
+	 	"body": [
+			"class ${1:}Factory(fac_django.DjangoModelFactory):",
+            "",
+            "    class Meta:",
+            "        model = models.${1:}",
+	 	],
+	 	"description": "FactoryBoy class for models"
+    },
+    
+    "CRU urls": {
+	 	"prefix": "cru_urls",
+	 	"body": [
+            "url(r'^${1:}/$',",
+            "    views.${2:}ListView.as_view(),",
+            "    name='${3:}'),",
+            "url(r'^${1:}/add/$',",
+            "    views.${2:}CreateView.as_view(),",
+            "    name='${3:}_add'),",
+            "url(r'^{1:}/(?P<pk>[0-9]+)/change/$',",
+            "    views.${2:}UpdateView.as_view(),",
+            "    name='${3:}_update'),"
+	 	],
+	 	"description": "CRU urls"
+    },
+
+	"CRU entity": {
+	 	"prefix": "cru_entity",
+	 	"body": [
+			"class ${1:}ListView(ListView):",
+    	  	"    model = models.${1:}",
+			"    template_name = '${2:}/${3:}/list.html'",
+			"",
+			"",
+			"class ${1:}CreateView(CreateView):",
+    		"    model = models.${1:}",
+			"    template_name = '${2:}/${3:}/form.html'",
+    		"    form_class = forms.${1:}Form",
+			"    success_url = reverse_lazy('${4:}')",
+			"",
+			"",
+			"class ${1:}UpdateView(UpdateView):",
+    		"    model = models.${1:}",
+			"    template_name = '${2:}/${3:}/form.html'",
+    		"    form_class = forms.${1:}Form",
+    		"    success_url = reverse_lazy('${4:}')"
+	 	],
+	 	"description": "CRU for a entity model"
+	},
+	"TEST CRU entity": {
+	 	"prefix": "test_cru_entity",
+	 	"body": [
+			"class Test${1:}(TestCase):",
+			"",
+    		"    def setUp(self):",
+        	"        self.url_to_add = reverse_lazy('${2:}_add')",
+            "        self.url_to_list = reverse_lazy('${2:}')",
+            "",
+            "        self.model = factories.${1:}Factory._meta.model",
+            "        self.field_validate = [${3:}]",
+            "        self.factory = factories.${1:}Factory",
+            "",
+        	"        self.client.force_login(UserFactory())",
+            "",
+            "    def test_get_request(self):",
+            "        count_range = random.randint(1, 10)",
+            "        for _ in range(count_range):",
+            "            instance = self.factory.create()",
+            "",
+            "        response = self.client.get(self.url_to_list)",
+            "",
+            "        instances = response.context_data.get('object_list')",
+            "        self.assertEqual(instances.count(), count_range)",
+            "",
+            "    def test_post_request_success_data(self):",
+            "        instance = self.factory.create()",
+            "",
+            "        data = model_to_dict(self.factory.create())",
+            "        instance.delete()",
+            "",
+            "        response = self.client.post(self.url_to_add, data)",
+            "",
+            "        self.assertEqual(response.status_code, status.HTTP_302_FOUND)",
+            "        self.assertEqual(self.model.objects.count(), 1)",
+            "",
+            "        instance = self.model.objects.first()",
+            "        for field in self.field_validate:",
+            "            self.assertEqual(",
+            "                getattr(instance, field), data.get(field))",
+            "",
+            "    def test_post_with_update_data_success(self):",
+            "        instance = self.factory.create()",
+            "        data = model_to_dict(self.factory.create())",
+            "",
+            "        url = reverse('${2:}_update', kwargs={'pk': instance.pk})",
+            "        response = self.client.post(url, data)",
+            "",
+            "        self.assertEqual(response.status_code, status.HTTP_302_FOUND)",
+            "        self.assertEqual(self.model.objects.count(), 2)",
+            "",
+            "        instance = self.model.objects.filter(pk=instance.pk)",
+            "        self.assertTrue(instance.exists())",
+            "",
+            "        for field in self.field_validate:",
+            "            self.assertEqual(",
+            "                getattr(instance, field), data.get(field))"
+
+		],
+		 "description": "Test CRU for a entity model"
+	},
+		
+}
